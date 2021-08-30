@@ -34,17 +34,16 @@
         app:layout_constraintTop_toBottomOf="@id/tv_confirmacao">
 
         <RadioButton
-            android:id="@+id/rb_absent"
-            android:layout_width="wrap_content"
-            android:layout_height="35dp"
-            android:text="Ausente" />
-
-        <RadioButton
             android:id="@+id/rb_present"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:text="Presente" />
 
+        <RadioButton
+            android:id="@+id/rb_absent"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="Ausente" />
     </RadioGroup>
 
     <Button

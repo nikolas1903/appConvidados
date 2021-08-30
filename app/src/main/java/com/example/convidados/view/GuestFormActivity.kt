@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.convidados.viewmodel.GuestFormViewModel
 import com.example.convidados.R
+import com.example.convidados.service.constants.GuestConstants
 
 class GuestFormActivity : AppCompatActivity() {
 
@@ -24,6 +25,18 @@ class GuestFormActivity : AppCompatActivity() {
 
         setListeners()
         observe()
+        loadData()
+
+        val rbPresent = findViewById<RadioButton>(R.id.rb_present)
+        rbPresent.isChecked = true
+    }
+
+    private fun loadData() {
+        val bundle = intent.extras
+        if (bundle != null) {
+            mGuestId = bundle.getInt(GuestConstants.GUESTID)
+            mViewModel.load(mGuestId)
+        }
     }
 
     private fun observe() {
@@ -36,6 +49,17 @@ class GuestFormActivity : AppCompatActivity() {
             finish()
         })
 
+        mViewModel.guest.observe(this, Observer {
+            val etName = findViewById<EditText>(R.id.et_name)
+            etName.setText(it.name)
+            if (it.presence) {
+                val rbPresent = findViewById<RadioButton>(R.id.rb_present)
+                rbPresent.isChecked = true
+            } else {
+                val rbAbsent = findViewById<RadioButton>(R.id.rb_absent)
+                rbAbsent.isChecked = true
+            }
+        })
     }
 
     private fun setListeners() {
@@ -49,7 +73,9 @@ class GuestFormActivity : AppCompatActivity() {
             val rbPresent = findViewById<RadioButton>(R.id.rb_present)
             val presence = rbPresent.isChecked
 
-            mViewModel.save(name, presence)
+            mViewModel.save(mGuestId, name, presence)
         }
     }
+
+
 }
